@@ -1,0 +1,7 @@
+alter table book    
+add constraint C_K_PRICE check(price>=0 and price<=600);
+
+
+
+alter table reader    
+add constraint C_K_AGE check(age>=0 and age<=100);
