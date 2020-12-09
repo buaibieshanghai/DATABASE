@@ -1,0 +1,26 @@
+--1 查询书号为tp0103被借阅次数。
+select  count(*) as 借阅次数
+from lend
+group by lend.book_id
+having book_id = 'tp3'
+--2 查询工作单位在计算机系的读者姓名和借阅次数。
+select reader.rname as 读者姓名 , count(*) as 借阅次数
+from lend,reader
+where lend.reader_id = reader.id
+and  reader.danwei = '计算机与科学技术系'
+group by reader_id,reader.rname 
+
+--3 查阅年龄25以上借阅次数2次以下的读者信息。
+select *
+from reader
+where reader.id in(select lend.reader_id
+from lend
+group by lend.reader_id
+having count(*) <=2)
+and reader.age > 25
+--4 查询从来没被借阅的图书信息。
+select *
+from book
+where book.id not in(select book_id
+from lend
+)

@@ -1,0 +1,37 @@
+create view lend_num
+as
+select reader_id, count(*) as 借阅次数
+from lend
+group by lend.reader_id
+
+--熟悉触发器的定义和使用。
+--建立图书的insert触发器，若向图书中插入一条记录，则自动向借阅表中插入一行，令该书被借阅次数最多的读者借阅。
+create trigger t_insert 
+on book
+after insert
+as 
+begin
+declare @book_id varchar(20) --获取插入的图书id
+declare @reader_id int --获取借阅次数最多的读者id
+select @book_id  = id from inserted
+
+select @reader_id= reader_id   
+from lend_num
+where lend_num.借阅次数 = (
+select max(借阅次数)
+from lend_num
+)
+select *
+from lend
+insert into lend (reader_id ,book_id,lend_data)
+values (@reader_id,@book_id,'2000-12-09 00:00:00')
+print('插入成功');
+
+end
+
+
+insert into book(id,bname,price,publishlocation)
+values
+	('tp6','数据库系统概论',50,'高等教育出版社')
+
+select *from lend

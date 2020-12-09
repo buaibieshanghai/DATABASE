@@ -1,0 +1,22 @@
+
+--熟悉存储过程的定义和使用，熟练运用 select  ,update ,insert ,delete 命令完成对学生信息数据库的查询、更新、添加、删除操作。
+--根据上面基本表的信息定义一个存储过程，完成下面功能：
+--入口参数：书号
+--1 显示图书借阅信息
+--2 如果没人借，删除该书记录
+--3 如果价格500元以下，涨价至500元。
+ create procedure  p_book
+ @book_id varchar(20)
+ as 
+ select *
+ from lend
+ where lend.book_id = @book_id
+
+ if not exists( select *
+ from lend
+ where lend.book_id = @book_id)
+ begin 
+ delete book
+ where book.id = @book_id
+ print('该书没有借阅记录,已经删除!') 
+ end

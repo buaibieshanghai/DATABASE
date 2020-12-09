@@ -1,0 +1,30 @@
+use BookManage;
+--表book如果存在则删除重建
+if   object_id('book','u') is not null  
+drop table book
+create table book(
+	id varchar(20) not null,  --书号
+	bname varchar(20) not null,	 --书名
+	price float not null,  --价格
+	publishlocation varchar(20) not null --出版社
+)
+
+--表reader如果存在则删除重建
+if object_id('reader','u') is not null
+drop table reader 
+CREATE TABLE reader (
+  id  int NOT NULL ,			--卡号
+  rname varchar(20) NOT NULL,	--名字
+  age int NOT NULL,				--年龄
+  danwei varchar(20) NOT NULL, --单位
+
+) 
+--表lend如果存在则删除重建
+if object_id('lend','u') is not null
+drop table lend 
+CREATE TABLE lend (
+  reader_id int NOT NULL,		--卡号
+   book_id varchar(20) NOT NULL,		--书号
+  lend_data datetime NOT NULL,		--日期
+ 
+)

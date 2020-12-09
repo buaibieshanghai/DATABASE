@@ -1,0 +1,29 @@
+--加深对视图的理解，熟练视图的定义、查看、修改等操作
+--1 根据上面基本表的信息定义视图显示每本书的书名、借阅次数 
+create view showbook
+as
+
+select book.bname,lend.借阅次数
+from book,(select lend.book_id,count(*) as 借阅次数
+from lend
+group by lend.book_id) lend
+where book.id = lend.book_id
+
+--2 观察基本表数据变化时，视图中数据的变化。
+
+update lend 
+set book_id = 'tp5' 
+where  book_id = 'tp2';  
+select *
+from showbook;
+--3利用视图，查询借阅次数最多的书
+select *
+from showbook
+where 借阅次数 = (
+	select max(借阅次数)
+	from showbook
+	
+)
+
+
+
