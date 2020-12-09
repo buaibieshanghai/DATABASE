@@ -1,0 +1,35 @@
+--1 查询高教出版社的《数据库原理》的读者姓名。
+
+select * 
+from reader
+where id in(select  reader_id
+from lend
+where book_id = (
+select  id
+from book
+where book.publishlocation = '高等教育出版社'
+and book.bname =  '数据库系统概论'
+))
+
+--2 查询价格比高教出版社图书都贵的图书信息。
+
+select *
+from book
+where book.price > (
+select max(price)
+from book
+where book.publishlocation = '高等教育出版社'
+
+)
+
+
+
+--3 查询年龄20岁以下的读者姓名和所借阅图书的书名。
+ 
+select reader.rname,book.bname
+from book,lend,reader
+where book.id = lend.book_id 
+and lend.reader_id = reader.id
+and reader.age <= 26
+
+
